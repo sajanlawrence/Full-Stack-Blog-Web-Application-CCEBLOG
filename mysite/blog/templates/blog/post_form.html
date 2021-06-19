@@ -1,0 +1,12 @@
+{% extends 'blog/base.html' %}
+
+{% block body_block %}
+<form method="POST">
+{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" class="btn btn-primary" value="Post">
+<a class="btn btn-danger" href="{% url 'post_list' %}">Cancel</a>
+
+</form>
+<br><br><br><br>
+{% endblock %}

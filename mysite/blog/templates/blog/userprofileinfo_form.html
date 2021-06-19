@@ -1,0 +1,10 @@
+{% extends 'blog/base.html' %}
+{% block body_block %}
+<form method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" class="btn btn-primary" value="Submit">
+<a class="btn btn-danger" href="{% url 'my_profile' pk=user.pk %}">Cancel</a>
+</form>
+<br><br>
+{% endblock %}

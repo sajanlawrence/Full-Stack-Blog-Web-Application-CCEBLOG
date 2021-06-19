@@ -1,0 +1,51 @@
+{% extends 'blog/base.html' %}
+{% block body_block %}
+<div class="card text">
+    <div class="card-body">
+        <h1 class="card-title head2 text-center"><b>{{ object.title|title }}</b></h1>
+        <h3 class="card-title"><i> Author: <a href="{% url 'my_profile' pk=object.author.pk%}" id="link4" type=button class="btn btn-outline-light">{{ object.author }}</a></i></h3>
+        <hr>
+     <p class="card-text textclass">{{ object.text|linebreaks }}</p>
+    </div>
+   <hr>
+   <div class="d-grid gap-2 col-6 mx-auto">
+     <a href="{%url 'add_comment_to_post' pk=post.pk  %}" class="btn btn-primary" name='next' type="button">Add Comment</a>
+
+     {% if user.is_authenticated  %}
+     {% if user == object.author %}
+          <a href="{%url 'post_edit' pk=post.pk  %}" class="btn btn-warning" type="button">Edit Post</a>
+          <a href="{%url 'post_remove' pk=post.pk  %}" class="btn btn-danger" type="button">Delete Post</a>
+
+          {% endif %} 
+      {% endif %} 
+ 
+    </div>
+     <hr>
+     
+   <h4> &nbsp; Comments:
+    {% if object.approved_comments %}
+      {{object.approved_comments.count}}
+      {% for comment in object.approved_comments %}
+      <hr>
+      <div>
+        &nbsp;&nbsp;<span class="head2">{{ comment.author}}</span>
+        {% if user.is_authenticated  %}
+        {% if user == object.author %}
+             <a href="{%url 'comment_remove' pk=comment.pk  %}" class="btn btn-danger cmtbtn" type="button">Delete</a>
+             {% endif %} 
+         {% endif %} 
+    
+        <div class='space'>{{ comment.text|linebreaks }}</div> 
+        <h6 class="text-end"><i>Commented on : {{ comment.create_date|date:'d M Y'}} &nbsp; </i></h6>
+        </div>
+      {% endfor %}
+    {% else %}
+      0 <br>
+      <br>
+    {% endif %}
+  
+    <div class="card-footer text-center">
+        Published on {{ object.published_date|date:'d M Y' }} by {{ object.author }}
+   </div>   
+</div>
+{% endblock %}

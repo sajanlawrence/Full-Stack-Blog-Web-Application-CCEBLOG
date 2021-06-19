@@ -1,0 +1,27 @@
+{% extends 'blog/base.html' %}
+
+{% block body_block %}
+<div class='container'>
+<div class="card text-center">
+    <div class="card-body">
+<h1 class="head2">Please Login</h1>
+<br>
+{% if message %}
+<p class='errorlist'>{{ message }}</p>
+{% endif %}
+    <form action="{% url 'login' %}" method="POST">
+        {% csrf_token %}
+        <label for="username" class="head2 text-left">Enter Username:</label>
+        <input type="text" name="username" placeholder="Username" class="text-box">
+        <br> <br>
+        <label for="password" class="head2">Enter Password:</label>
+        <input type="password" name="password" placeholder="Password" class="text-box"> <br> <br>
+        <input type="hidden" name="next" value="{{ request.GET.next }}"/>
+        <button type="submit" class="btn btn-primary edit8">Sign in</button>       
+    </form>
+    </div>
+    </div>
+
+</div>
+<br><br><br><br><br><br><br><br><br><br><br><br>
+{% endblock %}

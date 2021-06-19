@@ -1,0 +1,27 @@
+{% extends 'blog/base.html' %}
+{% block body_block %}
+    {% for post in object_list %}
+    <div class="card text-center">
+      <div class="card-body">
+          <a href="{%url 'post_detail' pk=post.pk %}" class="link"><h1 class="card-title head2"> <b>{{ post.title|title }}</b></h1></a>
+          <h4> <p class="card-text">{{ post.support_content }}</p></h4>
+          <a href="{%url 'post_detail' pk=post.pk %}" class="btn btn-primary edit8">Read</a>
+          <a href="{% url 'my_profile' pk=post.author.pk%}" class="btn btn-primary edit8" type="button">About the author</a>
+          
+          {% if post.approved_comments %}
+            <a href="{% url 'post_detail' pk=post.pk %}" class="btn btn-outline-primary edit8 edit7">Comments: {{post.approved_comments.count}}</a>
+          {% else %}
+            <a href="{% url 'post_detail' pk=post.pk %}" class="btn btn-outline-primary edit8 edit7">Comments: 0</a>
+          {% endif %}
+          
+      </div>
+      <div class="card-footer">
+          Published on {{ post.published_date|date:"d M Y" }} by {{ post.author }}
+        </div>
+    </div>
+    <br>
+      {% empty %}
+     <center><h1 class= 'head2'>No posts yet!</h1></center> 
+    {% endfor %}
+
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block body_block %}
+<div class="row px-4 profile profile2">
+    <div class="col-sm-12 mx-auto">
+        <!-- Profile widget -->
+        <div class="bg-white shadow rounded overflow-hidden edit7">
+            <div class="px-4 pt-0 pb-4 card edit5">
+                <div class="media align-items-end profile-head">
+                    <div class="profile mr-2 container"> 
+                        {% if object.picture %}                       
+                        <img src="{{object.picture.url}}" alt="Profile pic" width="210" height="270" id="img1">  
+                        {% else %}
+                        <img src="{% static 'images/user2.jpg' %}" width=230 height=270 id="img1">
+                        {% endif %}
+                        <h4 class="mt-0 mb-0 child1 child">
+                            {{ object.user.first_name }} {{ object.user.last_name }}
+                            {% if object.instagram != "" %}
+                           <a href="{{object.instagram}}"><img src="{% static 'images/instagram.jpg' %}" width=68 height=70 id="img2"></a>
+                            {% endif %}
+                            {% if object.linkedin != "" %}
+                            <a href="{{object.linkedin}}"><img src="{% static 'images/linkedin.png' %}" width=68 height=70 id="img2"></a>
+                            {% endif %}
+                            {% if object.facebook != "" %}
+                            <a href="{{object.facebook}}"><img src="{% static 'images/facebook.png' %}" width=68 height=70 id="img2"></a> 
+                            {% endif %}
+                            {% if object.twitter != "" %}
+                            <a href="{{object.twitter}}"><img src="{% static 'images/twitter.png' %}" width=68 height=70 id="img2"></a>
+                            {% endif %}
+                        </h4>
+                    </div> 
+                    <center>
+                    <br>
+                    {% if request.user == object.user %}
+                    <a href="{% url 'user_edit' pk=object.user.pk %}" class="btn btn-outline-primary">Edit Profile</a>
+                    {% endif %}
+                </center>
+                </div>
+            </div>
+            <div class="px-4 py-3 justify-content-center text-center">
+                <h5 class="mb-0">About Me</h5>
+                <div class="p-4 rounded shadow-sm bg-light edit7">
+                    {% if object.bio == "" %}
+                        <p>Hi there, I'm using CCE BLOG </p>
+                    {% else %}
+                       <p> {{ object.bio  }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="bg-light p-4 d-flex justify-content-center text-center edit7">
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block">
+                            {% if object.user.posts.all == None %}
+                                0
+                            {% else %}
+                                {{ object.user.posts.all.count }}
+                            {% endif %}
+                        </h5>
+                        <small class="text-muted">Number of Posts</small>
+                    </li>
+                </ul>
+            </div>
+
+<div class="p-4 rounded shadow-sm bg-light edit7 justify-content-center text-center">
+    {% for post in object.user.posts.all %}
+        <div class="card text-center edit8">
+            <div class="card-body">
+                <a href="{%url 'post_detail' pk=post.pk %}" class="link"><h1 class="card-title head2"> <b>{{ post.title|title }}</b></h1></a>
+                <h4> <p class="card-text">{{ post.support_content }}</p></h4>
+                <a href="{%url 'post_detail' pk=post.pk %}" class="btn btn-primary edit9">Click Here to Read</a>
+            </div> 
+        </div>
+        <br> 
+    {% endfor %}
+  <h3><b><a href="#" class='link'>Go Top</a></b></h3> 
+    </div>
+</div>
+{% endblock %}
